@@ -1,4 +1,6 @@
-    :root{}
+    :root{
+        --primary-font: "", sans-serif;
+    }
     
     *{
         margin: 0;
@@ -6,13 +8,24 @@
         box-sizing: border-box;
     }
 
-    .main-menu{
-        width: 100svw;
+    body{
+        width: 100vw;
         height: 100svh;
+        overflow: hidden;
+    }
+
+    .main-menu{
+        width: 100%;
+        height: 100%;
+        display: none;
     }
 
     #canvas{
-        width: 100svw;
-        height: 100svh;
-        display: none;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        /* display: none; */
+        background-image: url(../assets/Locations/Location_2/2304x1296.png);
+        background-size: cover;
+        
     }
