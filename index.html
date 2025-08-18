@@ -1,17 +1,31 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./style/style.css">
-        <script src="./src/script.js" defer type="module"></script>
-        <title>Archer Adventure</title>
-    </head>
-    <body>
-        <div class="main-menu"></div>
+<!DOCTYPE html>
+<html lang="en">
 
-        <canvas id="canvas"></canvas>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css">
+    <script src="./src/script.js" defer type="module"></script>
+    <title>Archer Adventure</title>
+</head>
 
+<body>
+    <div class="main-menu">
 
-    </body>
-    </html>
+        <div id="states-and-market-buttons">
+            <button id="btn-market">Открыть магазин</button>
+            <button id="btn-stats">Характеристики</button>
+            <div id="market-window"></div>
+            <div id="stats-window"></div>
+        </div>
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <script type="module">
+        import { initMarketStateModule } from './src/market_states_module.js';
+        window.onload = initMarketStateModule;
+    </script>
+</body>
+
+</html>
