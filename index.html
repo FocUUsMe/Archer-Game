@@ -12,14 +12,18 @@
 
 <body>
     <div class="main-menu">
-        <div id="states-and-market-buttons">
-            <button id="btn-market">Открыть магазин</button>
-            <button id="btn-stats">Характеристики</button>
-            <div id="market-window"></div>
-            <div id="stats-window"></div>
-        </div>
+
     </div>
-    <canvas id="canvas" width="1920px" height="1080"></canvas>
+    <canvas id="canvas" width="1920px" height="1080" position="relative">
+    </canvas>
+    <!-- кнопки характеристик и окна для самих характеристик   -->
+    <div id="states-and-market-buttons">
+        <button id="btn-market">Магазин</button>
+        <button id="btn-states">Характеристики</button>
+    </div>
+  
+    <div id="market-stats-window"></div>
+
     <script type="module">
         import { initMarketStateModule } from './src/market_states_module.js';
         window.onload = initMarketStateModule;
