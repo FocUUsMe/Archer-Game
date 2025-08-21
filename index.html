@@ -1,18 +1,33 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./style/style.css">
-        <script src="./src/script.js" defer type="module"></script>
-        <script src="./src/canvas.js" defer type="module"></script>
-        <title>Archer Adventure</title>
-    </head>
-    <body>
-        <div class="main-menu"></div>
+<!DOCTYPE html>
+<html lang="en">
 
-        <canvas id="canvas" width="1920px" height="1080"></canvas>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css">
+    <script src="./src/script.js" defer type="module"></script>
+    <script src="./src/canvas.js" defer type="module"></script>
+    <title>Archer Adventure</title>
+</head>
 
+<body>
+    <div class="main-menu">
 
-    </body>
-    </html>
+    </div>
+    <canvas id="canvas" width="1920px" height="1080" position="relative">
+    </canvas>
+    <!-- кнопки характеристик и окна для самих характеристик   -->
+    <div id="states-and-market-buttons">
+        <button id="btn-market">Магазин</button>
+        <button id="btn-states">Характеристики</button>
+    </div>
+  
+    <div id="market-stats-window"></div>
+
+    <script type="module">
+        import { initMarketStateModule } from './src/market_states_module.js';
+        window.onload = initMarketStateModule;
+    </script>
+</body>
+
+</html>
