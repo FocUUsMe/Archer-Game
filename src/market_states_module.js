@@ -1,6 +1,6 @@
-import { Player } from './canvas.js';
-import { Arrow } from './canvas.js';
-console.log(Player);
+import { Player, ArrowType } from './canvas.js';
+export let isBtnOnclicked = false;
+
 class Shop {
     constructor(arrows) {
         this.arrows = arrows;
@@ -39,7 +39,7 @@ class GameUI {
         }
         this.openState = true;
         this.window.style.width = '640px',
-        this.window.style.height = '620px';
+            this.window.style.height = '620px';
         this.window.innerHTML = '';
         this.hideAll();
         const header = document.createElement('h2');
@@ -55,36 +55,26 @@ class GameUI {
             const p = document.createElement('p');
             p.textContent = `${arrow.name} (${arrow.damage} урона) - ${arrow.price} золота`;
             const btn = document.createElement('button');
+            btn.classList.add('btn')
             btn.textContent = `Купить`;
             div.appendChild(p),
-            div.appendChild(btn);
+                div.appendChild(btn);
             div.classList.add('market-div'),
-            p.classList.add('market-p'),
-            btn.onclick = () => {
-                if (this.player.buyArrow(arrow)) {
-                    alert('Стрела куплена!');
-                } else {
-                    alert('Недостаточно золота!');
-                }
-            };
+                p.classList.add('market-p'),
+                btn.onclick = () => {
+                
+
+                    if (this.player.buyArrow(arrow)) {
+                        console.log(arrow)
+                        alert('Стрела куплена!');
+                    } else {
+                        alert('Недостаточно золота!');
+                    }
+                };
             btn.classList.add('market-btn');
 
             container.appendChild(div);
         });
-
-        // arrows.forEach(arrow => {
-        //     const btn = document.createElement('button');
-        //     btn.textContent = `${arrow.name} (${arrow.damage} урона) - ${arrow.price} золота`;
-        //     btn.onclick = () => {
-        //         if (this.player.buyArrow(arrow)) {
-        //             alert('Стрела куплена!');
-        //         } else {
-        //             alert('Недостаточно золота!');
-        //         }
-        //     };
-        //     btn.classList.add('market-btn');
-        //     container.appendChild(btn);
-        // });
 
         this.window.style.display = 'block';
     }
@@ -129,15 +119,13 @@ class GameUI {
 // Инициализация (вызывать из главного JS после загрузки страницы)
 function initMarketStateModule() {
     const arrows = [
-        new Arrow('Деревянная стрела', 5, 0),
-        new Arrow('Каменная стрела', 15, 50),
-        new Arrow('Железная стрела', 25, 90),
-        new Arrow('Золотая стрела', 30, 120),
-        new Arrow('Огненная стрела', 45, 180),
-        new Arrow('Ядовитая стрела', 65, 250)]
-
-
-
+        new ArrowType('Деревянная стрела', 5, 0),
+        new ArrowType('Каменная стрела', 15, 50),
+        new ArrowType('Железная стрела', 25, 90),
+        new ArrowType('Золотая стрела', 30, 120),
+        new ArrowType('Огненная стрела', 45, 180),
+        new ArrowType('Ядовитая стрела', 65, 250)
+    ]
     const player = Player;
     const shop = new Shop(arrows);
     new GameUI(player, shop);
