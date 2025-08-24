@@ -138,6 +138,18 @@ class Archer {
 }
 
 
+
+    class Zombie{
+        constructor(posx, posy, frame, direction, speed){
+            this.posx = posx;
+            this.posy = posy;
+            this.frame = frame;
+            this.direction = direction;
+            this.speed = speed;
+        }
+    }
+
+
 export let Player = new Archer(canvas.width / 8, canvas.height / 2.5 + 250, 0, 'right', 10);
 
 
