@@ -15,7 +15,6 @@
     arrowSkin.src = './assets/archer/Arrow.png';
 
     export const arrowsFlying = [];
-    const enemies = [];
 
     // класс стрелы
     export class ArrowProjectical {
@@ -27,9 +26,8 @@
             this.speed = 20;
             this.width = 100;
             this.height = 100;
-
-
         }
+
         draw() {
             ctx.save();
             if (this.direction === 'left') {
@@ -47,6 +45,7 @@
         }
 
     }
+
     export class ArrowType {
         constructor(name, damage, price) {
             this.name = name;
@@ -61,13 +60,16 @@
             this.y = y;
             this.frame = frame;
             this.direction = direction;
-            this.speed = speed;
             this.size = 250;
+            this.frameCount = 0; //Счетчик кадров !!НЕ this.frame!!
+            this.frameSpeed = 2; //Чем больше, тем медленней прокрутка кадров
+
+            this.speed = speed;
             this.lives = 100;
-            //добавил урон, валюту , а также стрелу
-            this.arrowType = new ArrowType('Обычная стрела', 5, 0);
             this.damage = 5;
             this.gold = 100;
+
+            this.arrowType = new ArrowType('Обычная стрела', 5, 0);
         }
         //покупка стрел
         buyArrow(arrowType) {
@@ -105,37 +107,49 @@
         };
 
         runForward = () => {
-            if (this.frame >= 8) {
-                this.frame = 0;
-            }
-            playerSkin.src = `./assets/archer/run/run0${this.frame}.png`;
-            this.frame++;
-            this.direction = 'right';
             this.x += this.speed;
+
+            this.frameCount++;
+            if(this.frameCount >= this.frameSpeed){
+                this.frame++;
+
+                if (this.frame >= 8) {
+                    this.frame = 0;
+                }
+
+                playerSkin.src = `./assets/archer/run/run0${this.frame}.png`;
+
+                this.frameCount = 0;
+            }
+            this.direction = 'right';
         };
 
         runBack = () => {
-            if (this.frame >= 8) {
-                this.frame = 0;
-            }
-
-
-            playerSkin.src = `./assets/archer/run/run0${this.frame}.png`;
-            this.frame++;
-            this.direction = 'left';
             this.x -= this.speed;
 
-        }
-        shoot = () => {
+            this.frameCount++;
+            if(this.frameCount >= this.frameSpeed){
+                this.frame++;
 
+                if (this.frame >= 8) {
+                    this.frame = 0;
+                }
+
+                playerSkin.src = `./assets/archer/run/run0${this.frame}.png`;
+
+                this.frameCount = 0;
+            }
+
+            this.direction = 'left';
+        }
+
+        shoot = () => {
             if (this.frame > 13) {
                 this.frame = 0;
             }
             playerSkin.src = `./assets/archer/shot/shot0${this.frame}.png`;
             this.frame++;
-
         }
-
     }
 
 
@@ -145,10 +159,11 @@
             this.x = x;
             this.y = y;
             this.frame = frame;
-            this.speed = speed;
             this.size = 250;
+            
             this.lives = 100;
             this.damage = 10;
+            this.speed = speed;
         }
 
         draw(x, y, size) {
@@ -160,6 +175,9 @@
         }
 
         walk() {
+            this.x -= this.speed;
+
+
             if(this.frame >= 8){
                 this.frame = 0;
                 this.draw();
@@ -173,7 +191,7 @@
 
 
     export let Player = new Archer(canvas.width / 8, canvas.height / 2.5 + 250, 0, 'right', 10);
-    export let Zombie = new Enemy(canvas.width - 200, canvas.height / 2.5 + 250, 0, 5);
+    export let Zombie = new Enemy(canvas.width - 200, canvas.height / 2.5 + 250, 0, 1);
 
 
     function draw() {
@@ -191,15 +209,9 @@
         });
     }
 
-
-
-
-
     playerSkin.onload = ()=>{
         draw();
     }
-
-
 
     function render() {
         if (Player.lives > 0) {
