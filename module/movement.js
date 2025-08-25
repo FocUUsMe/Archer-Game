@@ -1,4 +1,5 @@
     import { Player } from "../src/canvas.js";
+    import { handleShoot } from "./shoot.js";
     
     export let keys = {};
 
@@ -12,7 +13,6 @@
             case 'a':
                 Player.runBack();
                 break;
-            
         }
     }
    

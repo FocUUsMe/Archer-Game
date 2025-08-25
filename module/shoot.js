@@ -1,5 +1,6 @@
 import { Player, ArrowProjectical, arrowsFlying } from "../src/canvas.js";
 let btns = document.querySelectorAll('.btn');
+
 export function handleShoot(e) {
 
         if (e.button === 0 ) {
