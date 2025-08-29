@@ -1,9 +1,11 @@
-    import { keys } from "../module/movement.js";
     import { handleMove } from "../module/movement.js";
     import { handleShoot } from "../module/shoot.js";
+    import { spawnEnemies } from "../module/spawn.js";
 
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+
+    const goldState = document.getElementById('gold_state');
 
     let playerSkin = new Image();
     playerSkin.src = './assets/archer/idle/idle00.png';
@@ -14,7 +16,11 @@
     let arrowSkin = new Image();
     arrowSkin.src = './assets/archer/Arrow.png';
 
+    let coinsIcon = new Image();
+    coinsIcon.src = './assets/icons/coins-icon.png';
+
     export const arrowsFlying = [];
+    export const enemies = [];
 
     // класс стрелы
     export class ArrowProjectical {
@@ -31,7 +37,6 @@
         draw() {
             ctx.save();
             if (this.direction === 'left') {
-                console.log('left');
                 this.speed = -20;
                 ctx.translate(this.x + this.width / 2, this.y);
                 ctx.scale(-1, 1);
@@ -67,7 +72,7 @@
             this.speed = speed;
             this.lives = 100;
             this.damage = 5;
-            this.gold = 100;
+            this.gold = 0;
 
             this.arrowType = new ArrowType('Обычная стрела', 5, 0);
         }
@@ -115,10 +120,11 @@
 
                 if (this.frame >= 8) {
                     this.frame = 0;
+                    return;
                 }
 
                 playerSkin.src = `./assets/archer/run/run0${this.frame}.png`;
-
+                
                 this.frameCount = 0;
             }
             this.direction = 'right';
@@ -133,6 +139,7 @@
 
                 if (this.frame >= 8) {
                     this.frame = 0;
+                    return;
                 }
 
                 playerSkin.src = `./assets/archer/run/run0${this.frame}.png`;
@@ -146,23 +153,25 @@
         shoot = () => {
             if (this.frame > 13) {
                 this.frame = 0;
+                return;
             }
             playerSkin.src = `./assets/archer/shot/shot0${this.frame}.png`;
             this.frame++;
         }
     }
 
-
-
-    class Enemy{
-        constructor(x, y, frame, speed){
+    export class Enemy{
+        constructor(x, y, frame, damage, speed){
             this.x = x;
             this.y = y;
             this.frame = frame;
             this.size = 250;
+
+            this.frameCount = 0;
+            this.frameSpeed = 10;
             
             this.lives = 100;
-            this.damage = 10;
+            this.damage = damage;
             this.speed = speed;
         }
 
@@ -177,27 +186,28 @@
         walk() {
             this.x -= this.speed;
 
+            this.frameCount++;
+            if(this.frameCount >= this.frameSpeed){
+                this.frame++;
 
-            if(this.frame >= 8){
-                this.frame = 0;
-                this.draw();
+                if(this.frame >= 8){
+                    this.frame = 0;
+                }
+
+                zombieSkin.src = `./assets/zombie/walk0${this.frame}.png`;
+                this.frameCount = 0;
             }
-
-            zombieSkin.src = `./assets/zombie/walk0${this.frame}.png`;
-            this.frame++;
-            this.x -= this.speed;
         }
     }
 
 
-    export let Player = new Archer(canvas.width / 8, canvas.height / 2.5 + 250, 0, 'right', 10);
-    export let Zombie = new Enemy(canvas.width - 200, canvas.height / 2.5 + 250, 0, 1);
-
+    export let Player = new Archer(100, 700, 0, 'right', 10);
+    // let Zombie = new Enemy(canvas.width - 200, canvas.height / 2.5 + 250, 0, 1);
 
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         Player.draw(Player.x, Player.y, Player.size);
-        Zombie.draw(Zombie.x, Zombie.y, Zombie.size);
+        // Zombie.draw(Zombie.x, Zombie.y, Zombie.size);
         arrowsFlying.forEach(arrow => {
             if (arrow.direction == 'right') {
                 arrow.draw(arrow.x += arrow.speed, arrow.y, arrow.width, arrow.height)
@@ -207,23 +217,34 @@
             }
 
         });
+
+        goldState.innerHTML = `COINS: ${Player.gold}`;
     }
 
-    playerSkin.onload = ()=>{
+    playerSkin.onload=()=>{
         draw();
+    }
+
+    function spawnInterval(){
+        const interval = setInterval(() => {
+                spawnEnemies;
+                console.log('Hello World!');
+        }, 2000);
     }
 
     function render() {
         if (Player.lives > 0) {
             draw();
-            Zombie.walk();
+            spawnInterval();
             requestAnimationFrame(render);
         } else {
             alert('Game over!');
+            clearInterval(interval);
         }
     }
 
     render();
 
     window.addEventListener('keydown', handleMove);
+    window.addEventListener('keyup', () => { playerSkin.src = './assets/archer/idle/idle00.png'; });
     canvas.addEventListener('mousedown', handleShoot);

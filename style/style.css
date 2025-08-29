@@ -160,5 +160,8 @@
         content: '';
     }
 
-  
-    
+    #gold_state{
+        color: white;
+        font-family: "Pixel Cyr";
+        font-size: 22px;
+    }    
