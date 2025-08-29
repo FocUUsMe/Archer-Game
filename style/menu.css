@@ -10,6 +10,7 @@
 body{
     background-image: url(../img/bg.jpg);
     background-size: cover;
+    overflow: hidden;
 }
 
 
@@ -53,20 +54,30 @@ body{
     border: none;
     cursor: pointer;
     font-family: "Silkscreen", sans-serif;
+    transition: all .5s;
 
     &:hover{
         color: black;
         background-color: white;
-        transition: all .5s;
+        transform: translateX(-20px);
     }
 }
 
 .name{
     font-size: 48px;
     text-align: center;
+    animation: textAnim 5s infinite;
 }
 
 .space{
     width: 1500px;
     height: 1000px;
+}
+
+
+
+@keyframes textAnim{
+    0%{ transform: translateY(0); }
+    50%{ transform: translateY(-20px); }
+    100%{ transform: translateY(0); }
 }

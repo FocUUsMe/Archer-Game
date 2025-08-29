@@ -1,4 +1,5 @@
     import { Player } from "../src/canvas.js";
+    import { soundPack } from "./playlist.js";
     
     export let keys = {};
 
